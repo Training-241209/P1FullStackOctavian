@@ -20,15 +20,23 @@ interface User {
   username: string
   roleId: number
 }
-const myToken = sessionStorage.getItem("authToken") 
+interface Reimbursement {
+  reimbId: number,
+  description: string,
+  amount: number,
+  status: string,
+  userId: number
+}
 
+console.log('this is the current token')
 console.log(sessionStorage.getItem("authToken"))
 function RouteComponent() {
   //const[users, setUsers] = useState<User[]>([])
+  const myToken = sessionStorage.getItem("authToken") as string
   const navigate = useNavigate()
   const [theMessage, setTheMessage] = useState('')
   const handleClick = async() => {
-    try{ await axios.get('http://localhost:8080/api/admin/allusers', 
+    try{ await axios.get('http://localhost:8080/api/admin/allusers' , 
       {headers: {
         'Authorization': `Bearer ${myToken}`
       }}
@@ -54,6 +62,36 @@ function RouteComponent() {
       console.log(error)
     }
   }
+
+  const handleClick2 = async() => {
+    try{ await axios.get('http://localhost:8080/api/admin/allpending' , 
+      {headers: {
+        'Authorization': `Bearer ${myToken}`
+      }}
+    )
+    .then((response) => {
+      console.log(response.data)
+      const theTickets = response.data.map((reimb: Reimbursement) => ({
+        reimbId: reimb.reimbId,
+        description: reimb.description,
+        amount: reimb.amount,
+        status: reimb.status,
+        userId: reimb.userId
+      }))
+      //setUsers(theUsers)
+      
+      localStorage.setItem('tickets', JSON.stringify(theTickets));
+      navigate({ to: '/pending_tickets' })})
+      .catch (error => {
+        if(error.response.status !== 200){
+          setTheMessage('You are not authorized to access this page')
+        }
+      })
+    }
+    catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <div className="bg-teal-400 mx-auto w-1/2 p-5 min-h-full flex flex-col gap-5">
       <Card className="my-10"> 
@@ -62,7 +100,7 @@ function RouteComponent() {
         </CardHeader>
         <CardContent className="flex flex-col gap-5 text-zinc-200 ">     
           <Button className="hover-button" onClick={handleClick}>See all users</Button>
-          <Button className="hover-button">See all pending tickets</Button>
+          <Button className="hover-button" onClick={handleClick2}>See all pending tickets</Button>
         </CardContent>
         <CardFooter>
           {theMessage && <div><p>{theMessage}</p></div>} 

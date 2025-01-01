@@ -14,6 +14,8 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as UserticketsImport } from './routes/user_tickets'
+import { Route as UseroptionsImport } from './routes/user_options'
+import { Route as PendingticketsImport } from './routes/pending_tickets'
 import { Route as ManagersloginImport } from './routes/managers_login'
 import { Route as ManageroptionsImport } from './routes/manager_options'
 import { Route as EmployeesloginImport } from './routes/employees_login'
@@ -35,6 +37,18 @@ const AboutLazyRoute = AboutLazyImport.update({
 const UserticketsRoute = UserticketsImport.update({
   id: '/user_tickets',
   path: '/user_tickets',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const UseroptionsRoute = UseroptionsImport.update({
+  id: '/user_options',
+  path: '/user_options',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const PendingticketsRoute = PendingticketsImport.update({
+  id: '/pending_tickets',
+  path: '/pending_tickets',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -107,6 +121,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ManagersloginImport
       parentRoute: typeof rootRoute
     }
+    '/pending_tickets': {
+      id: '/pending_tickets'
+      path: '/pending_tickets'
+      fullPath: '/pending_tickets'
+      preLoaderRoute: typeof PendingticketsImport
+      parentRoute: typeof rootRoute
+    }
+    '/user_options': {
+      id: '/user_options'
+      path: '/user_options'
+      fullPath: '/user_options'
+      preLoaderRoute: typeof UseroptionsImport
+      parentRoute: typeof rootRoute
+    }
     '/user_tickets': {
       id: '/user_tickets'
       path: '/user_tickets'
@@ -132,6 +160,8 @@ export interface FileRoutesByFullPath {
   '/employees_login': typeof EmployeesloginRoute
   '/manager_options': typeof ManageroptionsRoute
   '/managers_login': typeof ManagersloginRoute
+  '/pending_tickets': typeof PendingticketsRoute
+  '/user_options': typeof UseroptionsRoute
   '/user_tickets': typeof UserticketsRoute
   '/about': typeof AboutLazyRoute
 }
@@ -142,6 +172,8 @@ export interface FileRoutesByTo {
   '/employees_login': typeof EmployeesloginRoute
   '/manager_options': typeof ManageroptionsRoute
   '/managers_login': typeof ManagersloginRoute
+  '/pending_tickets': typeof PendingticketsRoute
+  '/user_options': typeof UseroptionsRoute
   '/user_tickets': typeof UserticketsRoute
   '/about': typeof AboutLazyRoute
 }
@@ -153,6 +185,8 @@ export interface FileRoutesById {
   '/employees_login': typeof EmployeesloginRoute
   '/manager_options': typeof ManageroptionsRoute
   '/managers_login': typeof ManagersloginRoute
+  '/pending_tickets': typeof PendingticketsRoute
+  '/user_options': typeof UseroptionsRoute
   '/user_tickets': typeof UserticketsRoute
   '/about': typeof AboutLazyRoute
 }
@@ -165,6 +199,8 @@ export interface FileRouteTypes {
     | '/employees_login'
     | '/manager_options'
     | '/managers_login'
+    | '/pending_tickets'
+    | '/user_options'
     | '/user_tickets'
     | '/about'
   fileRoutesByTo: FileRoutesByTo
@@ -174,6 +210,8 @@ export interface FileRouteTypes {
     | '/employees_login'
     | '/manager_options'
     | '/managers_login'
+    | '/pending_tickets'
+    | '/user_options'
     | '/user_tickets'
     | '/about'
   id:
@@ -183,6 +221,8 @@ export interface FileRouteTypes {
     | '/employees_login'
     | '/manager_options'
     | '/managers_login'
+    | '/pending_tickets'
+    | '/user_options'
     | '/user_tickets'
     | '/about'
   fileRoutesById: FileRoutesById
@@ -194,6 +234,8 @@ export interface RootRouteChildren {
   EmployeesloginRoute: typeof EmployeesloginRoute
   ManageroptionsRoute: typeof ManageroptionsRoute
   ManagersloginRoute: typeof ManagersloginRoute
+  PendingticketsRoute: typeof PendingticketsRoute
+  UseroptionsRoute: typeof UseroptionsRoute
   UserticketsRoute: typeof UserticketsRoute
   AboutLazyRoute: typeof AboutLazyRoute
 }
@@ -204,6 +246,8 @@ const rootRouteChildren: RootRouteChildren = {
   EmployeesloginRoute: EmployeesloginRoute,
   ManageroptionsRoute: ManageroptionsRoute,
   ManagersloginRoute: ManagersloginRoute,
+  PendingticketsRoute: PendingticketsRoute,
+  UseroptionsRoute: UseroptionsRoute,
   UserticketsRoute: UserticketsRoute,
   AboutLazyRoute: AboutLazyRoute,
 }
@@ -223,6 +267,8 @@ export const routeTree = rootRoute
         "/employees_login",
         "/manager_options",
         "/managers_login",
+        "/pending_tickets",
+        "/user_options",
         "/user_tickets",
         "/about"
       ]
@@ -241,6 +287,12 @@ export const routeTree = rootRoute
     },
     "/managers_login": {
       "filePath": "managers_login.tsx"
+    },
+    "/pending_tickets": {
+      "filePath": "pending_tickets.tsx"
+    },
+    "/user_options": {
+      "filePath": "user_options.tsx"
     },
     "/user_tickets": {
       "filePath": "user_tickets.tsx"

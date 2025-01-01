@@ -62,14 +62,14 @@ public class AdminController {
     }
 
     @GetMapping("/allpending")
-    private ResponseEntity<List<Reimbursement>> allPendingTickets(HttpSession session,
-            @Requestbody String theUsername) {
-        String authUsername = (String) session.getAttribute("username");
-        if (authUsername.equals(theUsername)) {
+    private ResponseEntity<List<Reimbursement>> allPendingTickets(HttpSession session /*,
+            @Requestbody String theUsername*/) {
+        //String authUsername = (String) session.getAttribute("username");
+       // if (authUsername.equals(theUsername)) {
             return ResponseEntity.ok().body(reimbursementService.findPendingTickets("PENDING"));
-        } else {
+       /*  } else {
             return ResponseEntity.status(401).body(new ArrayList<>());
-        }
+        }*/
     }
 
     @PutMapping("/denyticket/{id}")

@@ -44,7 +44,7 @@ const navigate = useNavigate()
                   console.log(sessionStorage.getItem('authToken'))
                   setToken(myToken)
                   navigate({ to: '/manager_options' })                  
-                  console.log(token)                  
+                  console.log(sessionStorage.getItem('authToken'))                  
                 }
                 else {
                    setTheMessage('You are not authorizedto access this page')

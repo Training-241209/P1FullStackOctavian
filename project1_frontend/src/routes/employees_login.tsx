@@ -1,4 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
+//import { useNavigate } from 'react-router-dom'
+import { useNavigate } from '@tanstack/react-router'
 import axios from 'axios'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -23,6 +25,7 @@ function UserLogin() {
  }= useForm<FormFields>({mode : 'onChange'})
 
  const [theMessage, setTheMessage] = useState('')
+ const navigate = useNavigate()
 
  const onSubmit : SubmitHandler<FormFields> = async (data) => {
    setTheMessage('')
@@ -30,8 +33,9 @@ function UserLogin() {
    await axios.post('http://localhost:8080/api/user/login', data)
                .then((response) => {
                  console.log(response.data)
-                 if(response.status === 200){               
-                   setTheMessage('User registered successfully')
+                 if(response.status === 200){    
+                    sessionStorage.setItem('userId', response.data.userId)         
+                 navigate({to:  '/user_options'})  
                  } else if(response.status === 409){
                    setTheMessage('Username is already taken')
                  } else {

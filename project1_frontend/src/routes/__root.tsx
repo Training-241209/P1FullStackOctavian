@@ -15,9 +15,9 @@ export const Route = createRootRoute({
         <Link to="/" className="[&.active]:font-bold">
           Home
         </Link>{" "}
-        <Link to="/user_tickets" className="[&.active]:font-bold">
+      { /*<Link to="/user_tickets" className="[&.active]:font-bold">
           User Tickets
-        </Link>
+        </Link>*/}
         <Link to="/managers_login" className="[&.active]:font-bold">
           Managers Login
         </Link>
@@ -26,6 +26,7 @@ export const Route = createRootRoute({
         </Link>
         {(token !== null) && <Link to="/manager_options" className="[&.active]:font-bold">Manager Options</Link>}
         {(token !== null) && <Link to="/all_users_list" className="[&.active]:font-bold">List of all users</Link>}
+        {(token !== null) && <Link to="/pending_tickets" className="[&.active]:font-bold">Pending tickets</Link>}
       </div>
       <hr />
       <Outlet />

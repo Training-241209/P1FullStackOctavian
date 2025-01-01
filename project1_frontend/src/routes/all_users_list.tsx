@@ -10,14 +10,17 @@ interface User {
 }
 
 // Retrieve data from localStorage or sessionStorage
-const storedData = JSON.parse(localStorage.getItem('data') || 'null');
+const storedData = JSON.parse(localStorage.getItem('data') || 'null')
 
 function AllUsersList() {
+  if(storedData !== null) {
   return storedData.map((user: User) => (
     <div key={user.userId} className="card">
         <p>{user.userId}</p>
       <p>{user.username}</p>
       <p>{user.roleId}</p>
     </div>
-  ))    
+  ))    } else {
+    return <p>No users found</p>
+  }
 }
