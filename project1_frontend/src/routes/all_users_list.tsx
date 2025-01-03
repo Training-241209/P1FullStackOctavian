@@ -2,8 +2,8 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useReactTable, createColumnHelper, flexRender, getCoreRowModel, getPaginationRowModel } from '@tanstack/react-table'
 import axios from 'axios'
 import { useState } from 'react'
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'react-feather'
-//import { info } from 'console'
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Key, Lock, Users } from 'react-feather'
+
 
 export const Route = createFileRoute('/all_users_list')({
   component: AllUsersList,
@@ -20,7 +20,7 @@ const columns = [
     cell: (info) => info.getValue(),
     header: () => (
       <span className="flex items-center">
-        <span className="mr-2">🆔</span> ID
+        <Key className='mr-2' size={16} />ID
       </span>
     )
 
@@ -29,7 +29,7 @@ const columns = [
     cell: (info) => info.getValue(),
     header: () => (
       <span className="flex items-center">
-        <span className="mr-2">👤</span> Username
+        <Users className='mr-2' size={16}/> Username
       </span>
     )
 
@@ -38,19 +38,20 @@ const columns = [
     cell: (info) => info.getValue(),
     header: () => (
       <span className="flex items-center">
-        <span className="mr-2">👷</span> RoleId
+        <Lock className='mr-2' size={16}/> RoleId
       </span>
     )
 
   }),
 ]
 
-// Retrieve data from localStorage or sessionStorage
+// Retrieve data from localStorage
 const storedData = JSON.parse(localStorage.getItem('data') || 'null')
 const data: User[] = storedData || []
 
 function AllUsersList() {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [tableData, setTableData] = useState(data)
   const rowClickHandler = (row: User) => {
     setSelectedUser(row)
   }
@@ -63,16 +64,17 @@ function AllUsersList() {
         {headers: {
           'Authorization': `Bearer ${myToken}`
         }}
-      );
+      )
       
-      console.log('Update response:', response);
+      console.log('Update response:', response)
+      setTableData ((prevData) => prevData.filter((user) => user.userId !== selectedUser.userId))
     } catch (error) {
-      console.error('Error updating user:', error);
+      console.error('Error updating table:', error)
     }
-  };
+  }
 
   const table = useReactTable({
-    data,
+    data: tableData,
     columns,
     initialState: {
       pagination: {
@@ -83,20 +85,20 @@ function AllUsersList() {
     getPaginationRowModel : getPaginationRowModel()
     }
   )
-  
+
  
 return (
   <>
   <div className='flex flex-col min-h-screen max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8'>
-  <div className='mb-4 relative'>
+  <div className='overflow-x-auto bg-white divide-y divide-gray-200'>
     <table className="min-w-full divide-y divide-gray-200 bg-stone-300 text-black font-bold " >
       <thead className=' bg-gray-50'>
-        <tr>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key= {headerGroup.id}>
               {headerGroup.headers.map((header) => (
                 <th 
-                  key={header.id} >
+                  key={header.id} 
+                  className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>
                   <div >
                     {flexRender(
                       header.column.columnDef.header,
@@ -107,7 +109,7 @@ return (
               ))}
             </tr>
           ))}
-        </tr>
+
       </thead>
       <tbody > 
         {
@@ -187,9 +189,9 @@ return (
     </div>
     <div className="mt-4">
           <button
-            onClick={deleteUser}
+            onClick= {deleteUser}
             disabled={!selectedUser}  
-            className="px-4 py-2 bg-blue-500 text-white rounded"
+            className="px-4 py-2 bg-blue-500 border-opacity-80 rounded-full text-white hover:bg-blue-800"
           >
             Delete user
           </button>

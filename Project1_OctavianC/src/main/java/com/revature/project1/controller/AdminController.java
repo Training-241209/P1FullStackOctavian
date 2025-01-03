@@ -85,14 +85,14 @@ public class AdminController {
     }
 
     @PutMapping("/acceptticket/{id}")
-    private ResponseEntity<Reimbursement> approveTicket(@PathVariable int id, HttpSession session,
-    @RequestBody String theUsername) {
-        String authUsername = (String) session.getAttribute("username");
-        if(authUsername.equals(theUsername)){
+    private ResponseEntity<Reimbursement> approveTicket(@PathVariable int id /* , HttpSession session,
+    @RequestBody String theUsername*/) {
+       // String authUsername = (String) session.getAttribute("username");
+       // if(authUsername.equals(theUsername)){
         return ResponseEntity.ok().body(reimbursementService.updateStatusApproved((long) id));
-        } else {
-            return  ResponseEntity.status(401).body(new Reimbursement());
-        }
+       // } else {
+       //     return  ResponseEntity.status(401).body(new Reimbursement());
+       // }
 
     }
 

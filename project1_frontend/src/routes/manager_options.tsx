@@ -71,12 +71,12 @@ function RouteComponent() {
     )
     .then((response) => {
       console.log(response.data)
-      const theTickets = response.data.map((reimb: Reimbursement) => ({
-        reimbId: reimb.reimbId,
-        description: reimb.description,
-        amount: reimb.amount,
-        status: reimb.status,
-        userId: reimb.userId
+      const theTickets = response.data.map((reimbursement: Reimbursement) => ({
+        reimbId: reimbursement.reimbId,
+        description: reimbursement.description,
+        amount: reimbursement.amount,
+        status: reimbursement.status,
+        userId: reimbursement.userId
       }))
       //setUsers(theUsers)
       
